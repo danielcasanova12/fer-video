@@ -1,0 +1,122 @@
+/home/agrilab/miniconda3/envs/video-mos/lib/python3.9/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:654: Checkpoint directory /home/agrilab/Documentos/Cassanova/Fer-video/src/checkpoints exists and is not empty.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/home/agrilab/miniconda3/envs/video-mos/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+   | Name               | Type               | Params | Mode
+-------------------------------------------------------------------
+0  | cnn                | ResNet             | 11.2 M | train
+1  | feature_projection | Linear             | 262 K  | train
+2  | rnn                | GRU                | 2.4 M  | train
+3  | attention          | Attention          | 787 K  | train
+4  | classifier         | Sequential         | 133 K  | train
+5  | train_acc          | MulticlassAccuracy | 0      | train
+6  | val_acc            | MulticlassAccuracy | 0      | train
+7  | test_acc           | MulticlassAccuracy | 0      | train
+8  | train_f1           | MulticlassF1Score  | 0      | train
+9  | val_f1             | MulticlassF1Score  | 0      | train
+10 | test_f1            | MulticlassF1Score  | 0      | train
+-------------------------------------------------------------------
+3.5 M     Trainable params
+11.2 M    Non-trainable params
+14.7 M    Total params
+58.904    Total estimated model params size (MB)
+86        Modules in train mode
+0         Modules in eval mode
+Configurando datasets para: ravdess_split
+Diretório raiz: /home/agrilab/Documentos/Cassanova/Fer-video/data
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train
+Encontrados 257 vídeos para classe 'angry'
+Encontrados 257 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/fear
+Encontrados 257 vídeos para classe 'happy'
+Encontrados 128 vídeos para classe 'neutral'
+Encontrados 257 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 1156
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val
+Encontrados 55 vídeos para classe 'angry'
+Encontrados 55 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/fear
+Encontrados 55 vídeos para classe 'happy'
+Encontrados 27 vídeos para classe 'neutral'
+Encontrados 55 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 247
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test
+Encontrados 56 vídeos para classe 'angry'
+Encontrados 56 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/fear
+Encontrados 56 vídeos para classe 'happy'
+Encontrados 29 vídeos para classe 'neutral'
+Encontrados 56 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 253
+
+Sanity Checking: |                                                                                    | 0/? [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 0: 100%|█████████████████████████████████████████| 145/145 [05:34<00:00,  0.43it/s, v_num=cba2, train_loss_step=1.920]
+
+
+
+
+
+
+
+Validation DataLoader 0:  90%|████████████████████████████████████████████████████████      | 28/31 [00:50<00:05,  0.56it/s]
+Metric val_loss improved. New best score: 1.529
+
+Epoch 0, global step 145: 'val_loss' reached 1.52908 (best 1.52908), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/src/checkpoints/improved_lstm-ravdess_split-epoch=00-val_loss=1.53.ckpt' as top 3
+Detected KeyboardInterrupt, attempting graceful shutdown ...
