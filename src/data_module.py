@@ -19,6 +19,7 @@ class VideoDataset(Dataset):
         root_dir: str,
         dataset_name: str,
         split: str,
+        class_mappings: dict,
         max_frames: int = 16,
         transform: Optional[transforms.Compose] = None,
         frames_per_second: int = 1
@@ -37,11 +38,7 @@ class VideoDataset(Dataset):
         self.base_name = base  # ex: "ravdess"
 
         # Mapeamento de classes
-        self.class_mappings = {
-            'caer':       ['Anger','Disgust','Fear','Happy','Neutral','Sad','Surprise'],
-            'cmu_moisei': ['angry','disgust','fear','happy','neutral','sad','surprised'],
-            'ravdess':    ['angry','calm','disgust','fear','happy','neutral','sad','surprised'],
-        }
+        self.class_mappings = class_mappings
         self.classes = self.class_mappings.get(self.base_name, [])
         if not self.classes:
             raise ValueError(f"Dataset desconhecido: {self.base_name}")
@@ -156,7 +153,7 @@ class VideoDataset(Dataset):
                 break
             if cnt % interval == 0:
                 frames.append(cv2.cvtColor(frm, cv2.COLOR_BGR2RGB))
-            cnt  = 1
+            cnt += 1
         cap.release()
         return frames
 
@@ -226,19 +223,14 @@ class VideoDataModule(pl.LightningDataModule):
         self.fps = cfg.dataset.frames_per_second
         self.batch = cfg.training.batch_size
         self.workers = cfg.training.num_workers
+        self.class_mappings = cfg.dataset.class_mappings
 
         # Determinar número de classes baseado no dataset
         base_name = self.dataset
         if self.dataset.endswith("_split"):
             base_name = self.dataset[:-len("_split")]
         
-        class_mappings = {
-            'caer':       ['Anger','Disgust','Fear','Happy','Neutral','Sad','Surprise'],
-            'cmu_moisei': ['angry','disgust','fear','happy','neutral','sad','surprised'],
-            'ravdess':    ['angry','calm','disgust','fear','happy','neutral','sad','surprised'],
-        }
-        
-        self.classes = class_mappings.get(base_name, [])
+        self.classes = self.class_mappings.get(base_name, [])
         if not self.classes:
             raise ValueError(f"Dataset desconhecido: {base_name}")
         
@@ -266,6 +258,7 @@ class VideoDataModule(pl.LightningDataModule):
             root_dir=self.root_dir,
             dataset_name=self.dataset,
             split='train',
+            class_mappings=self.class_mappings,
             max_frames=self.max_frames,
             transform=self.train_tf,
             frames_per_second=self.fps
@@ -274,6 +267,7 @@ class VideoDataModule(pl.LightningDataModule):
             root_dir=self.root_dir,
             dataset_name=self.dataset,
             split='val',
+            class_mappings=self.class_mappings,
             max_frames=self.max_frames,
             transform=self.val_tf,
             frames_per_second=self.fps
@@ -285,6 +279,7 @@ class VideoDataModule(pl.LightningDataModule):
                 root_dir=self.root_dir,
                 dataset_name=self.dataset,
                 split='test',
+                class_mappings=self.class_mappings,
                 max_frames=self.max_frames,
                 transform=self.val_tf,
                 frames_per_second=self.fps

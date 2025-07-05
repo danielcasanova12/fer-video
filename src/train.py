@@ -8,16 +8,17 @@ import hydra
 from omegaconf import DictConfig
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
-from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.loggers import TensorBoardLogger, WandbLogger
 import torch
 import os
 
 from data_module import VideoDataModule
 from models.lstm import LSTMClassifier
 from models.vit import ViTClassifier
+from models.improved_lstm import ImprovedLSTMClassifier
 
 
-@hydra.main(version_base=None, config_path=".", config_name="config")
+@hydra.main(version_base=None, config_path=".")
 def main(cfg: DictConfig) -> None:
     """Função principal de treinamento"""
     
@@ -34,6 +35,16 @@ def main(cfg: DictConfig) -> None:
     # Criar modelo baseado na configuração
     if cfg.model.name == "lstm":
         model = LSTMClassifier(
+            input_size=cfg.model.input_size,
+            hidden_size=cfg.model.hidden_size,
+            num_layers=cfg.model.num_layers,
+            num_classes=num_classes,
+            dropout=cfg.model.dropout,
+            lr=cfg.training.lr,
+            weight_decay=cfg.training.weight_decay
+        )
+    elif cfg.model.name == "improved_lstm":
+        model = ImprovedLSTMClassifier(
             input_size=cfg.model.input_size,
             hidden_size=cfg.model.hidden_size,
             num_layers=cfg.model.num_layers,
@@ -80,11 +91,20 @@ def main(cfg: DictConfig) -> None:
         callbacks.append(early_stopping)
     
     # Logger
-    logger = TensorBoardLogger(
-        save_dir=cfg.training.log_dir,
-        name=f"{cfg.model.name}_{cfg.dataset.name}",
-        version=None
-    )
+    if cfg.wandb.enable:
+        logger = WandbLogger(
+            name=cfg.name,  # Use the name from the config file
+            project=cfg.wandb.project,
+            entity=cfg.wandb.entity,
+            log_model=True,
+            config=dict(cfg)
+        )
+    else:
+        logger = TensorBoardLogger(
+            save_dir=cfg.training.log_dir,
+            name=f"{cfg.model.name}_{cfg.dataset.name}",
+            version=None
+        )
     
     # Configurar trainer
     trainer = pl.Trainer(

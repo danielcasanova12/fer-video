@@ -1,0 +1,15 @@
+# Inherit from the base config
+_target_: hydra.compose
+_recursive_: false
+
+# Override parameters for the V2 experiment
+name: "improved_lstm_v2_finetune_cosine"
+
+model:
+  freeze_cnn: false
+
+training:
+  scheduler:
+    name: cosine_annealing
+    t_max: 50 # Should match num_epochs
+    eta_min: 1e-6
