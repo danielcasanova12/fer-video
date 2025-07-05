@@ -1,0 +1,2 @@
+- dataset.name=ravdess_split
+- model.name=lstm

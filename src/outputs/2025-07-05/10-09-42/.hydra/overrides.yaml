@@ -1,0 +1,2 @@
+- dataset.name=ravdess
+- model.name=lstm
