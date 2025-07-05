@@ -1,0 +1,32 @@
+# Pipeline de treinamento de classificação de vídeo
+# Instale com: pip install -r requirements.txt
+
+# Core dependencies
+torch>=1.13.0
+torchvision>=0.14.0
+pytorch-lightning>=1.8.0
+hydra-core>=1.3.0
+omegaconf>=2.3.0
+
+# Computer vision e processamento de vídeo
+opencv-python>=4.7.0
+Pillow>=9.0.0
+timm>=0.6.0
+
+# Métricas e logging
+torchmetrics>=0.11.0
+tensorboard>=2.11.0
+wandb>=0.13.0  # Opcional para logging avançado
+
+# Utilitários
+numpy>=1.21.0
+pandas>=1.5.0
+matplotlib>=3.6.0
+seaborn>=0.11.0
+tqdm>=4.64.0
+scikit-learn>=1.2.0
+
+# Desenvolvimento
+black>=22.0.0
+flake8>=5.0.0
+pytest>=7.0.0

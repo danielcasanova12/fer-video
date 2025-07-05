@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+"""
+Script principal para treinamento de classificação de vídeo
+com PyTorch Lightning e Hydra
+"""
+
+import hydra
+from omegaconf import DictConfig
+import pytorch_lightning as pl
+from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
+from pytorch_lightning.loggers import TensorBoardLogger
+import torch
+import os
+
+from data_module import VideoDataModule
+from models.lstm import LSTMClassifier
+from models.vit import ViTClassifier
+
+
+@hydra.main(version_base=None, config_path=".", config_name="config")
+def main(cfg: DictConfig) -> None:
+    """Função principal de treinamento"""
+    
+    # Configurar seeds para reprodutibilidade
+    pl.seed_everything(cfg.seed, workers=True)
+    
+    # Criar data module
+    data_module = VideoDataModule(cfg)
+    
+    # Configurar data module para obter número de classes
+    data_module.setup()
+    num_classes = data_module.num_classes
+    
+    # Criar modelo baseado na configuração
+    if cfg.model.name == "lstm":
+        model = LSTMClassifier(
+            input_size=cfg.model.input_size,
+            hidden_size=cfg.model.hidden_size,
+            num_layers=cfg.model.num_layers,
+            num_classes=num_classes,
+            dropout=cfg.model.dropout,
+            lr=cfg.training.lr,
+            weight_decay=cfg.training.weight_decay
+        )
+    elif cfg.model.name == "vit":
+        model = ViTClassifier(
+            model_name=cfg.model.model_name,
+            num_classes=num_classes,
+            pretrained=cfg.model.pretrained,
+            lr=cfg.training.lr,
+            weight_decay=cfg.training.weight_decay,
+            freeze_backbone=cfg.model.freeze_backbone
+        )
+    else:
+        raise ValueError(f"Modelo não suportado: {cfg.model.name}")
+    
+    # Configurar callbacks
+    callbacks = []
+    
+    # Checkpoint callback
+    checkpoint_callback = ModelCheckpoint(
+        dirpath=cfg.training.checkpoint_dir,
+        filename=f"{cfg.model.name}-{cfg.dataset.name}-"   "{epoch:02d}-{val_loss:.2f}",
+        monitor="val_loss",
+        mode="min",
+        save_top_k=3,
+        save_last=True,
+        verbose=True
+    )
+    callbacks.append(checkpoint_callback)
+    
+    # Early stopping callback
+    if cfg.training.early_stopping.enable:
+        early_stopping = EarlyStopping(
+            monitor="val_loss",
+            patience=cfg.training.early_stopping.patience,
+            mode="min",
+            verbose=True
+        )
+        callbacks.append(early_stopping)
+    
+    # Logger
+    logger = TensorBoardLogger(
+        save_dir=cfg.training.log_dir,
+        name=f"{cfg.model.name}_{cfg.dataset.name}",
+        version=None
+    )
+    
+    # Configurar trainer
+    trainer = pl.Trainer(
+        max_epochs=cfg.training.num_epochs,
+        accelerator="auto",
+        devices="auto",
+        callbacks=callbacks,
+        logger=logger,
+        deterministic=True,
+        check_val_every_n_epoch=cfg.training.val_check_interval,
+        log_every_n_steps=cfg.training.log_interval,
+        precision=cfg.training.precision,
+        gradient_clip_val=cfg.training.gradient_clip_val,
+        accumulate_grad_batches=cfg.training.accumulate_grad_batches
+    )
+    
+    # Treinamento
+    print(f"Iniciando treinamento do modelo {cfg.model.name} no dataset {cfg.dataset.name}")
+    print(f"Número de classes: {num_classes}")
+    print(f"Batch size: {cfg.training.batch_size}")
+    print(f"Learning rate: {cfg.training.lr}")
+    
+    trainer.fit(model, data_module)
+    
+    # Teste (se disponível)
+    if hasattr(data_module, 'test_dataloader') and data_module.test_dataloader() is not None:
+        print("Executando avaliação no conjunto de teste...")
+        trainer.test(model, data_module, ckpt_path="best")
+    
+    print("Treinamento concluído!")
+    print(f"Melhor modelo salvo em: {checkpoint_callback.best_model_path}")
+
+
+if __name__ == "__main__":
+    main()

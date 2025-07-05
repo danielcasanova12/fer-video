@@ -1,0 +1,22 @@
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/caer$ cd train
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/caer/train$ ls
+Anger  Disgust  Fear  Happy  Neutral  Sad  Surprise
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/caer/train$ cd ..
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/caer$ cd ..
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data$ cd cmu-moisei_split/
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/cmu-moisei_split$ ls
+test  train  val
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/cmu-moisei_split$ cd train/
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/cmu-moisei_split/train$ ls
+angry  disgust  fearful  happy  neutral  sad  surprised
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/cmu-moisei_split/train$ cd ..
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/cmu-moisei_split$ cd ..
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data$  cd ravdess_split/
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/ravdess_split$  cd t
+bash: cd: t: Arquivo ou diretÃ³rio inexistente
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/ravdess_split$ cd test/
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/ravdess_split/test$ ls
+angry  calm  disgust  fearful  happy  neutral  sad  surprised
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/ravdess_split/test$ ^C
+(ravdess-split) agrilab@agrilab-4080:~/Documentos/Cassanova/Fer-video/data/ravdess_split/test$ 
+
