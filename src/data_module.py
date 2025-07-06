@@ -8,7 +8,7 @@ from PIL import Image
 from typing import List, Tuple, Optional
 from torch.utils.data import Dataset, DataLoader
 import pytorch_lightning as pl
-from torchvision import transforms
+from torchvision import transforms, models
 from omegaconf import DictConfig
 
 class VideoDataset(Dataset):
@@ -22,7 +22,8 @@ class VideoDataset(Dataset):
         class_mappings: dict,
         max_frames: int = 16,
         transform: Optional[transforms.Compose] = None,
-        frames_per_second: int = 1
+        frames_per_second: int = 1,
+        model_type: str = "video" # Adicionado para diferenciar o tipo de modelo
     ):
         self.root_dir = Path(root_dir)
         self.dataset_name = dataset_name  # ex: "ravdess_split"
@@ -224,6 +225,7 @@ class VideoDataModule(pl.LightningDataModule):
         self.batch = cfg.training.batch_size
         self.workers = cfg.training.num_workers
         self.class_mappings = cfg.dataset.class_mappings
+        self.model_type = cfg.model.model_type # Adicionado
 
         # Determinar número de classes baseado no dataset
         base_name = self.dataset
@@ -261,7 +263,8 @@ class VideoDataModule(pl.LightningDataModule):
             class_mappings=self.class_mappings,
             max_frames=self.max_frames,
             transform=self.train_tf,
-            frames_per_second=self.fps
+            frames_per_second=self.fps,
+            model_type=self.model_type
         )
         self.val_ds = VideoDataset(
             root_dir=self.root_dir,
@@ -270,7 +273,8 @@ class VideoDataModule(pl.LightningDataModule):
             class_mappings=self.class_mappings,
             max_frames=self.max_frames,
             transform=self.val_tf,
-            frames_per_second=self.fps
+            frames_per_second=self.fps,
+            model_type=self.model_type
         )
         
         test_path = Path(self.root_dir) / self.dataset / 'test'
@@ -282,7 +286,8 @@ class VideoDataModule(pl.LightningDataModule):
                 class_mappings=self.class_mappings,
                 max_frames=self.max_frames,
                 transform=self.val_tf,
-                frames_per_second=self.fps
+                frames_per_second=self.fps,
+                model_type=self.model_type
             )
         else:
             print(f"Conjunto de teste não encontrado em: {test_path}")

@@ -1,0 +1,16 @@
+Optuna
+Uma das mais usadas hoje. Oferece:
+
+Otimização Bayesiana via TPE (Tree-structured Parzen Estimator).
+
+Pruners para interromper trials ruins cedo.
+
+Integração direta com PyTorch Lightning e scripts “nativos” (basta definir uma função objective(trial) que instancia o seu modelo).
+
+Interface minimalista e documentação excelente.
+
+
+implemente ele mas n~ão mecha nos yaml e nem no trainer, n~ão edite oque est´ã funcionando, crie uma pasta nova dentro de src para isso que pegue mesmo que os yaml de frameda cnn,vit, config e o configv2 e salve no wandb os melhores pararametros pra cada modelo 
+
+
+Por favor tambem crie um .py que faça um rum_all que rode todos stes modelos para encontrar os melhores hiperparametros

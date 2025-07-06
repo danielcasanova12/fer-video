@@ -14,6 +14,7 @@ dataset:
     ravdess:    ['angry','calm','disgust','fear','happy','neutral','sad','surprised']
 
 model:
+  model_type: video
   name: improved_lstm
   input_size: 512
   hidden_size: 256
