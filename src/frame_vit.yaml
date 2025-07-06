@@ -1,0 +1,46 @@
+# Inherit from the base config
+_target_: hydra.compose
+_recursive_: false
+
+# Override parameters for frame-based experiment
+name: "frame_vit_base"
+seed: 42
+
+dataset:
+  name: ravdess_split
+  root: "/home/agrilab/Documentos/Cassanova/Fer-video/data"
+  max_frames: 12
+  frames_per_second: 1
+  class_mappings:
+    caer:       ['Anger','Disgust','Fear','Happy','Neutral','Sad','Surprise']
+    cmu_moisei: ['angry','disgust','fear','happy','neutral','sad','surprised']
+    ravdess:    ['angry','calm','disgust','fear','happy','neutral','sad','surprised']
+
+model:
+  model_type: vit # Define o tipo de modelo como 'vit'
+  name: frame_classifier # Nome do modelo (pode ser qualquer coisa, mas é bom ser descritivo)
+  cnn_backbone: "google/vit-base-patch16-224-in21k" # Backbone CNN para extração de features
+  pretrained: true
+  freeze_backbone: true
+
+training:
+  batch_size: 8
+  num_epochs: 50
+  lr: 1e-4
+  weight_decay: 1e-4
+  num_workers: 4
+  precision: 16
+  gradient_clip_val: 1.0
+  accumulate_grad_batches: 1
+  val_check_interval: 1
+  log_interval: 10
+  checkpoint_dir: "checkpoints/"
+  log_dir: "logs/"
+  early_stopping:
+    enable: true
+    patience: 10
+
+wandb:
+  enable: true
+  entity: "snaxofc10-utfpr-medianeira"
+  project: "fer_video"

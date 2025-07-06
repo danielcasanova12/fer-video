@@ -1,0 +1,179 @@
+Configurando datasets para: ravdess_split
+Diretório raiz: /home/agrilab/Documentos/Cassanova/Fer-video/data
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train
+Encontrados 257 vídeos para classe 'angry'
+Encontrados 257 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/fear
+Encontrados 257 vídeos para classe 'happy'
+Encontrados 128 vídeos para classe 'neutral'
+Encontrados 257 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 1156
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val
+Encontrados 55 vídeos para classe 'angry'
+Encontrados 55 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/fear
+Encontrados 55 vídeos para classe 'happy'
+Encontrados 27 vídeos para classe 'neutral'
+Encontrados 55 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 247
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test
+Encontrados 56 vídeos para classe 'angry'
+Encontrados 56 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/fear
+Encontrados 56 vídeos para classe 'happy'
+Encontrados 29 vídeos para classe 'neutral'
+Encontrados 56 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 253
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+  | Name              | Type   | Params | Mode
+-----------------------------------------------------
+0 | feature_extractor | ResNet | 23.5 M | train
+1 | classifier        | Linear | 16.4 K | train
+-----------------------------------------------------
+16.4 K    Trainable params
+23.5 M    Non-trainable params
+23.5 M    Total params
+94.098    Total estimated model params size (MB)
+152       Modules in train mode
+0         Modules in eval mode
+Epoch 15: 100%|██████████| 145/145 [01:00<00:00,  2.39it/s, v_num=qgim, train_loss_step=1.300, val_loss=1.120, val_acc=0.599, train_loss_epoch=1.100]
+                                                                        
+Metric val_loss improved. New best score: 1.543
+Epoch 0, global step 145: 'val_loss' reached 1.54276 (best 1.54276), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=00-val_loss=1.54.ckpt' as top 3
+Metric val_loss improved by 0.062 >= min_delta = 0.0. New best score: 1.481
+Epoch 1, global step 290: 'val_loss' reached 1.48053 (best 1.48053), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=01-val_loss=1.48.ckpt' as top 3
+Metric val_loss improved by 0.051 >= min_delta = 0.0. New best score: 1.430
+Epoch 2, global step 435: 'val_loss' reached 1.42999 (best 1.42999), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=02-val_loss=1.43.ckpt' as top 3
+Metric val_loss improved by 0.041 >= min_delta = 0.0. New best score: 1.389
+Epoch 3, global step 580: 'val_loss' reached 1.38936 (best 1.38936), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=03-val_loss=1.39.ckpt' as top 3
+Metric val_loss improved by 0.053 >= min_delta = 0.0. New best score: 1.337
+Epoch 4, global step 725: 'val_loss' reached 1.33677 (best 1.33677), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=04-val_loss=1.34.ckpt' as top 3
+Metric val_loss improved by 0.034 >= min_delta = 0.0. New best score: 1.302
+Epoch 5, global step 870: 'val_loss' reached 1.30244 (best 1.30244), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=05-val_loss=1.30.ckpt' as top 3
+Metric val_loss improved by 0.008 >= min_delta = 0.0. New best score: 1.294
+Epoch 6, global step 1015: 'val_loss' reached 1.29397 (best 1.29397), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=06-val_loss=1.29.ckpt' as top 3
+Metric val_loss improved by 0.033 >= min_delta = 0.0. New best score: 1.261
+Epoch 7, global step 1160: 'val_loss' reached 1.26125 (best 1.26125), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=07-val_loss=1.26.ckpt' as top 3
+Metric val_loss improved by 0.026 >= min_delta = 0.0. New best score: 1.235
+Epoch 8, global step 1305: 'val_loss' reached 1.23517 (best 1.23517), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=08-val_loss=1.24.ckpt' as top 3
+Metric val_loss improved by 0.025 >= min_delta = 0.0. New best score: 1.211
+Epoch 9, global step 1450: 'val_loss' reached 1.21063 (best 1.21063), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=09-val_loss=1.21.ckpt' as top 3
+Metric val_loss improved by 0.011 >= min_delta = 0.0. New best score: 1.200
+Epoch 10, global step 1595: 'val_loss' reached 1.20010 (best 1.20010), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=10-val_loss=1.20.ckpt' as top 3
+Metric val_loss improved by 0.018 >= min_delta = 0.0. New best score: 1.182
+Epoch 11, global step 1740: 'val_loss' reached 1.18212 (best 1.18212), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=11-val_loss=1.18.ckpt' as top 3
+Metric val_loss improved by 0.019 >= min_delta = 0.0. New best score: 1.163
+Epoch 12, global step 1885: 'val_loss' reached 1.16338 (best 1.16338), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=12-val_loss=1.16.ckpt' as top 3
+Metric val_loss improved by 0.019 >= min_delta = 0.0. New best score: 1.145
+Epoch 13, global step 2030: 'val_loss' reached 1.14470 (best 1.14470), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=13-val_loss=1.14.ckpt' as top 3
+Metric val_loss improved by 0.011 >= min_delta = 0.0. New best score: 1.134
+Epoch 14, global step 2175: 'val_loss' reached 1.13407 (best 1.13407), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=14-val_loss=1.13.ckpt' as top 3
+Metric val_loss improved by 0.019 >= min_delta = 0.0. New best score: 1.115
+Epoch 15, global step 2320: 'val_loss' reached 1.11505 (best 1.11505), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=15-val_loss=1.12.ckpt' as top 3
+Metric val_loss improved by 0.002 >= min_delta = 0.0. New best score: 1.113
+Epoch 16, global step 2465: 'val_loss' reached 1.11325 (best 1.11325), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=16-val_loss=1.11.ckpt' as top 3
+Metric val_loss improved by 0.018 >= min_delta = 0.0. New best score: 1.096
+Epoch 17, global step 2610: 'val_loss' reached 1.09558 (best 1.09558), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=17-val_loss=1.10.ckpt' as top 3
+Metric val_loss improved by 0.008 >= min_delta = 0.0. New best score: 1.088
+Epoch 18, global step 2755: 'val_loss' reached 1.08761 (best 1.08761), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=18-val_loss=1.09.ckpt' as top 3
+Metric val_loss improved by 0.019 >= min_delta = 0.0. New best score: 1.068
+Epoch 19, global step 2900: 'val_loss' reached 1.06839 (best 1.06839), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=19-val_loss=1.07.ckpt' as top 3
+Metric val_loss improved by 0.007 >= min_delta = 0.0. New best score: 1.061
+Epoch 20, global step 3045: 'val_loss' reached 1.06096 (best 1.06096), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=20-val_loss=1.06.ckpt' as top 3
+Metric val_loss improved by 0.018 >= min_delta = 0.0. New best score: 1.043
+Epoch 21, global step 3190: 'val_loss' reached 1.04319 (best 1.04319), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=21-val_loss=1.04.ckpt' as top 3
+Epoch 22, global step 3335: 'val_loss' reached 1.05354 (best 1.04319), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=22-val_loss=1.05.ckpt' as top 3
+Metric val_loss improved by 0.003 >= min_delta = 0.0. New best score: 1.040
+Epoch 23, global step 3480: 'val_loss' reached 1.04040 (best 1.04040), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=23-val_loss=1.04.ckpt' as top 3
+Epoch 24, global step 3625: 'val_loss' reached 1.04111 (best 1.04040), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=24-val_loss=1.04.ckpt' as top 3
+Metric val_loss improved by 0.021 >= min_delta = 0.0. New best score: 1.019
+Epoch 25, global step 3770: 'val_loss' reached 1.01933 (best 1.01933), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=25-val_loss=1.02.ckpt' as top 3
+Epoch 26, global step 3915: 'val_loss' reached 1.01941 (best 1.01933), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=26-val_loss=1.02.ckpt' as top 3
+Epoch 27, global step 4060: 'val_loss' reached 1.01942 (best 1.01933), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=27-val_loss=1.02.ckpt' as top 3
+Metric val_loss improved by 0.009 >= min_delta = 0.0. New best score: 1.011
+Epoch 28, global step 4205: 'val_loss' reached 1.01061 (best 1.01061), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=28-val_loss=1.01.ckpt' as top 3
+Metric val_loss improved by 0.009 >= min_delta = 0.0. New best score: 1.001
+Epoch 29, global step 4350: 'val_loss' reached 1.00144 (best 1.00144), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=29-val_loss=1.00.ckpt' as top 3
+Metric val_loss improved by 0.029 >= min_delta = 0.0. New best score: 0.972
+Epoch 30, global step 4495: 'val_loss' reached 0.97234 (best 0.97234), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=30-val_loss=0.97.ckpt' as top 3
+Epoch 31, global step 4640: 'val_loss' was not in top 3
+Epoch 32, global step 4785: 'val_loss' reached 0.99981 (best 0.97234), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=32-val_loss=1.00.ckpt' as top 3
+Epoch 33, global step 4930: 'val_loss' reached 0.98653 (best 0.97234), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=33-val_loss=0.99.ckpt' as top 3
+Epoch 34, global step 5075: 'val_loss' reached 0.98967 (best 0.97234), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=34-val_loss=0.99.ckpt' as top 3
+Epoch 35, global step 5220: 'val_loss' reached 0.98885 (best 0.97234), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=35-val_loss=0.99.ckpt' as top 3
+Epoch 36, global step 5365: 'val_loss' reached 0.97689 (best 0.97234), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=36-val_loss=0.98.ckpt' as top 3
+Epoch 37, global step 5510: 'val_loss' reached 0.98640 (best 0.97234), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=37-val_loss=0.99.ckpt' as top 3
+Epoch 38, global step 5655: 'val_loss' reached 0.98485 (best 0.97234), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=38-val_loss=0.98.ckpt' as top 3
+Epoch 39, global step 5800: 'val_loss' was not in top 3
+Metric val_loss improved by 0.022 >= min_delta = 0.0. New best score: 0.951
+Epoch 40, global step 5945: 'val_loss' reached 0.95064 (best 0.95064), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=40-val_loss=0.95.ckpt' as top 3
+Epoch 41, global step 6090: 'val_loss' reached 0.96028 (best 0.95064), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=41-val_loss=0.96.ckpt' as top 3
+Epoch 42, global step 6235: 'val_loss' reached 0.95883 (best 0.95064), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=42-val_loss=0.96.ckpt' as top 3
+Metric val_loss improved by 0.003 >= min_delta = 0.0. New best score: 0.948
+Epoch 43, global step 6380: 'val_loss' reached 0.94752 (best 0.94752), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=43-val_loss=0.95.ckpt' as top 3
+Metric val_loss improved by 0.018 >= min_delta = 0.0. New best score: 0.929
+Epoch 44, global step 6525: 'val_loss' reached 0.92934 (best 0.92934), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=44-val_loss=0.93.ckpt' as top 3
+Metric val_loss improved by 0.014 >= min_delta = 0.0. New best score: 0.916
+Epoch 45, global step 6670: 'val_loss' reached 0.91565 (best 0.91565), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=45-val_loss=0.92.ckpt' as top 3
+Epoch 46, global step 6815: 'val_loss' was not in top 3
+Epoch 47, global step 6960: 'val_loss' reached 0.93772 (best 0.91565), saving model to '/home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=47-val_loss=0.94.ckpt' as top 3
+Epoch 48, global step 7105: 'val_loss' was not in top 3
+Epoch 49, global step 7250: 'val_loss' was not in top 3
+`Trainer.fit` stopped: `max_epochs=50` reached.
+Configurando datasets para: ravdess_split
+Diretório raiz: /home/agrilab/Documentos/Cassanova/Fer-video/data
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train
+Encontrados 257 vídeos para classe 'angry'
+Encontrados 257 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/fear
+Encontrados 257 vídeos para classe 'happy'
+Encontrados 128 vídeos para classe 'neutral'
+Encontrados 257 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 1156
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val
+Encontrados 55 vídeos para classe 'angry'
+Encontrados 55 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/fear
+Encontrados 55 vídeos para classe 'happy'
+Encontrados 27 vídeos para classe 'neutral'
+Encontrados 55 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 247
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test
+Encontrados 56 vídeos para classe 'angry'
+Encontrados 56 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/fear
+Encontrados 56 vídeos para classe 'happy'
+Encontrados 29 vídeos para classe 'neutral'
+Encontrados 56 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 253
+Restoring states from the checkpoint path at /home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=45-val_loss=0.92.ckpt
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Loaded model weights from the checkpoint at /home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=45-val_loss=0.92.ckpt
+Testing DataLoader 0: 100%|██████████| 32/32 [00:08<00:00,  3.57it/s]
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃        Test metric        ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         test_acc          │    0.6798418760299683     │
+│         test_loss         │    0.8715224266052246     │
+└───────────────────────────┴───────────────────────────┘
+Treinamento concluído!
+Melhor modelo salvo em: /home/agrilab/Documentos/Cassanova/Fer-video/checkpoints/frame_classifier-ravdess_split-epoch=45-val_loss=0.92.ckpt

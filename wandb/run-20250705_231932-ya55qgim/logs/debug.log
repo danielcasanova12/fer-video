@@ -1,0 +1,24 @@
+2025-07-05 23:19:32,517 INFO    MainThread:3300938 [wandb_setup.py:_flush():80] Current SDK version is 0.21.0
+2025-07-05 23:19:32,517 INFO    MainThread:3300938 [wandb_setup.py:_flush():80] Configure stats pid to 3300938
+2025-07-05 23:19:32,517 INFO    MainThread:3300938 [wandb_setup.py:_flush():80] Loading settings from /home/agrilab/.config/wandb/settings
+2025-07-05 23:19:32,517 INFO    MainThread:3300938 [wandb_setup.py:_flush():80] Loading settings from /home/agrilab/Documentos/Cassanova/Fer-video/wandb/settings
+2025-07-05 23:19:32,517 INFO    MainThread:3300938 [wandb_setup.py:_flush():80] Loading settings from environment variables
+2025-07-05 23:19:32,517 INFO    MainThread:3300938 [wandb_init.py:setup_run_log_directory():703] Logging user logs to ./wandb/run-20250705_231932-ya55qgim/logs/debug.log
+2025-07-05 23:19:32,517 INFO    MainThread:3300938 [wandb_init.py:setup_run_log_directory():704] Logging internal logs to ./wandb/run-20250705_231932-ya55qgim/logs/debug-internal.log
+2025-07-05 23:19:32,517 INFO    MainThread:3300938 [wandb_init.py:init():830] calling init triggers
+2025-07-05 23:19:32,517 INFO    MainThread:3300938 [wandb_init.py:init():835] wandb.init called with sweep_config: {}
+config: {'_target_': 'hydra.compose', '_recursive_': False, 'name': 'frame_resnet50_base', 'seed': 42, 'dataset': {'name': 'ravdess_split', 'root': '/home/agrilab/Documentos/Cassanova/Fer-video/data', 'max_frames': 12, 'frames_per_second': 1, 'class_mappings': {'caer': ['Anger', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise'], 'cmu_moisei': ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprised'], 'ravdess': ['angry', 'calm', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprised']}}, 'model': {'model_type': 'frame', 'name': 'frame_classifier', 'cnn_backbone': 'resnet50', 'pretrained': True, 'freeze_backbone': True}, 'training': {'batch_size': 8, 'num_epochs': 50, 'lr': 0.0001, 'weight_decay': 0.0001, 'num_workers': 4, 'precision': 16, 'gradient_clip_val': 1.0, 'accumulate_grad_batches': 1, 'val_check_interval': 1, 'log_interval': 10, 'checkpoint_dir': 'checkpoints/', 'log_dir': 'logs/', 'early_stopping': {'enable': True, 'patience': 10}}, 'wandb': {'enable': True, 'entity': 'snaxofc10-utfpr-medianeira', 'project': 'fer_video'}, '_wandb': {}}
+2025-07-05 23:19:32,517 INFO    MainThread:3300938 [wandb_init.py:init():871] starting backend
+2025-07-05 23:19:32,720 INFO    MainThread:3300938 [wandb_init.py:init():874] sending inform_init request
+2025-07-05 23:19:32,722 INFO    MainThread:3300938 [wandb_init.py:init():882] backend started and connected
+2025-07-05 23:19:32,723 INFO    MainThread:3300938 [wandb_init.py:init():953] updated telemetry
+2025-07-05 23:19:32,725 INFO    MainThread:3300938 [wandb_init.py:init():977] communicating run to backend with 90.0 second timeout
+2025-07-05 23:19:33,511 INFO    MainThread:3300938 [wandb_init.py:init():1029] starting run threads in backend
+2025-07-05 23:19:33,560 INFO    MainThread:3300938 [wandb_run.py:_console_start():2458] atexit reg
+2025-07-05 23:19:33,560 INFO    MainThread:3300938 [wandb_run.py:_redirect():2306] redirect: wrap_raw
+2025-07-05 23:19:33,560 INFO    MainThread:3300938 [wandb_run.py:_redirect():2375] Wrapping output streams.
+2025-07-05 23:19:33,560 INFO    MainThread:3300938 [wandb_run.py:_redirect():2398] Redirects installed.
+2025-07-05 23:19:33,561 INFO    MainThread:3300938 [wandb_init.py:init():1075] run started, returning control to user process
+2025-07-05 23:19:33,689 INFO    MainThread:3300938 [wandb_run.py:_config_callback():1363] config_cb None None {'num_classes': 8, 'lr': 0.0001, 'weight_decay': 0.0001, 'cnn_backbone': 'resnet50', 'pretrained': True, 'freeze_backbone': True, 'scheduler_name': None, 't_max': None, 'eta_min': None}
+2025-07-06 00:11:09,294 INFO    MainThread:3300938 [wandb_run.py:_config_callback():1363] config_cb None None {'num_classes': 8, 'lr': 0.0001, 'weight_decay': 0.0001, 'cnn_backbone': 'resnet50', 'pretrained': True, 'freeze_backbone': True, 'scheduler_name': None, 't_max': None, 'eta_min': None}
+2025-07-06 00:11:20,818 INFO    MsgRouterThr:3300938 [mailbox.py:close():129] [no run ID] Closing mailbox, abandoning 5 handles.

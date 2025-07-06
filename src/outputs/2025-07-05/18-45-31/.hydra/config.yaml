@@ -1,0 +1,11 @@
+_target_: hydra.compose
+_recursive_: false
+name: improved_lstm_v2_finetune_cosine
+seed: 42
+model:
+  freeze_cnn: false
+training:
+  scheduler:
+    name: cosine_annealing
+    t_max: 50
+    eta_min: 1.0e-06

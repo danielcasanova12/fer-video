@@ -1,0 +1,59 @@
+Configurando datasets para: ravdess_split
+Diretório raiz: /home/agrilab/Documentos/Cassanova/Fer-video/data
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train
+Encontrados 257 vídeos para classe 'angry'
+Encontrados 257 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/fear
+Encontrados 257 vídeos para classe 'happy'
+Encontrados 128 vídeos para classe 'neutral'
+Encontrados 257 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/train/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 1156
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val
+Encontrados 55 vídeos para classe 'angry'
+Encontrados 55 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/fear
+Encontrados 55 vídeos para classe 'happy'
+Encontrados 27 vídeos para classe 'neutral'
+Encontrados 55 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/val/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 247
+Procurando dados em: /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test
+Encontrados 56 vídeos para classe 'angry'
+Encontrados 56 vídeos para classe 'calm'
+Nenhum dado encontrado para classe 'disgust' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/disgust
+Aviso: classe 'fear' não encontrada em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/fear
+Encontrados 56 vídeos para classe 'happy'
+Encontrados 29 vídeos para classe 'neutral'
+Encontrados 56 vídeos para classe 'sad'
+Nenhum dado encontrado para classe 'surprised' em /home/agrilab/Documentos/Cassanova/Fer-video/data/ravdess_split/test/surprised
+Classes encontradas: ['angry', 'calm', 'disgust', 'happy', 'neutral', 'sad', 'surprised']
+Total de amostras carregadas: 253
+/home/agrilab/miniconda3/lib/python3.13/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:658: Checkpoint directory /home/agrilab/Documentos/Cassanova/Fer-video/src/checkpoints exists and is not empty.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+   | Name               | Type               | Params | Mode
+-------------------------------------------------------------------
+0  | cnn                | ResNet             | 11.2 M | train
+1  | feature_projection | Linear             | 262 K  | train
+2  | rnn                | GRU                | 2.4 M  | train
+3  | attention          | Attention          | 787 K  | train
+4  | classifier         | Sequential         | 133 K  | train
+5  | train_acc          | MulticlassAccuracy | 0      | train
+6  | val_acc            | MulticlassAccuracy | 0      | train
+7  | test_acc           | MulticlassAccuracy | 0      | train
+8  | train_f1           | MulticlassF1Score  | 0      | train
+9  | val_f1             | MulticlassF1Score  | 0      | train
+10 | test_f1            | MulticlassF1Score  | 0      | train
+-------------------------------------------------------------------
+3.5 M     Trainable params
+11.2 M    Non-trainable params
+14.7 M    Total params
+58.904    Total estimated model params size (MB)
+86        Modules in train mode
+0         Modules in eval mode
+Epoch 0:  86%|████████▌ | 125/145 [00:47<00:07,  2.66it/s, v_num=9yud, train_loss_step=1.540]

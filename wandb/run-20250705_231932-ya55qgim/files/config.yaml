@@ -1,0 +1,109 @@
+_recursive_:
+    value: false
+_target_:
+    value: hydra.compose
+_wandb:
+    value:
+        cli_version: 0.21.0
+        e:
+            00t6tf2t8yenzhamezn4c05ltb88uu0m:
+                args:
+                    - --config-name=frame.yaml
+                codePath: src/train.py
+                codePathLocal: src/train.py
+                cpu_count: 12
+                cpu_count_logical: 24
+                cudaVersion: "12.7"
+                disk:
+                    /:
+                        total: "978790502400"
+                        used: "758717493248"
+                email: snaxofc10@gmail.com
+                executable: /home/agrilab/miniconda3/bin/python
+                git:
+                    commit: 6846ba3180abf192850ffaf77ed610eb7172f96a
+                    remote: https://github.com/danielcasanova12/fer-video.git
+                gpu: NVIDIA GeForce RTX 4080
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ada
+                      cudaCores: 9728
+                      memoryTotal: "17171480576"
+                      name: NVIDIA GeForce RTX 4080
+                      uuid: GPU-11d750fe-0307-ecec-1a0a-2e10a459e8fb
+                host: agrilab-4080
+                memory:
+                    total: "66510454784"
+                os: Linux-6.8.0-57-generic-x86_64-with-glibc2.35
+                program: /home/agrilab/Documentos/Cassanova/Fer-video/src/train.py
+                python: CPython 3.13.2
+                root: .
+                startedAt: "2025-07-06T02:19:32.516390Z"
+                writerId: 00t6tf2t8yenzhamezn4c05ltb88uu0m
+        m:
+            - "1": trainer/global_step
+              "6":
+                - 3
+              "7": []
+            - "2": '*'
+              "5": 1
+              "6":
+                - 1
+              "7": []
+        python_version: 3.13.2
+        t:
+            "1":
+                - 1
+                - 9
+                - 41
+                - 49
+                - 50
+                - 63
+                - 103
+            "2":
+                - 1
+                - 9
+                - 41
+                - 49
+                - 50
+                - 63
+                - 103
+            "3":
+                - 7
+                - 13
+                - 16
+                - 66
+            "4": 3.13.2
+            "5": 0.21.0
+            "12": 0.21.0
+            "13": linux-x86_64
+cnn_backbone:
+    value: resnet50
+dataset:
+    value: '{''name'': ''ravdess_split'', ''root'': ''/home/agrilab/Documentos/Cassanova/Fer-video/data'', ''max_frames'': 12, ''frames_per_second'': 1, ''class_mappings'': {''caer'': [''Anger'', ''Disgust'', ''Fear'', ''Happy'', ''Neutral'', ''Sad'', ''Surprise''], ''cmu_moisei'': [''angry'', ''disgust'', ''fear'', ''happy'', ''neutral'', ''sad'', ''surprised''], ''ravdess'': [''angry'', ''calm'', ''disgust'', ''fear'', ''happy'', ''neutral'', ''sad'', ''surprised'']}}'
+eta_min:
+    value: null
+freeze_backbone:
+    value: true
+lr:
+    value: 0.0001
+model:
+    value: '{''model_type'': ''frame'', ''name'': ''frame_classifier'', ''cnn_backbone'': ''resnet50'', ''pretrained'': True, ''freeze_backbone'': True}'
+name:
+    value: frame_resnet50_base
+num_classes:
+    value: 8
+pretrained:
+    value: true
+scheduler_name:
+    value: null
+seed:
+    value: 42
+t_max:
+    value: null
+training:
+    value: '{''batch_size'': 8, ''num_epochs'': 50, ''lr'': 0.0001, ''weight_decay'': 0.0001, ''num_workers'': 4, ''precision'': 16, ''gradient_clip_val'': 1.0, ''accumulate_grad_batches'': 1, ''val_check_interval'': 1, ''log_interval'': 10, ''checkpoint_dir'': ''checkpoints/'', ''log_dir'': ''logs/'', ''early_stopping'': {''enable'': True, ''patience'': 10}}'
+wandb:
+    value: '{''enable'': True, ''entity'': ''snaxofc10-utfpr-medianeira'', ''project'': ''fer_video''}'
+weight_decay:
+    value: 0.0001

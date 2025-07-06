@@ -16,6 +16,7 @@ from data_module import VideoDataModule
 from models.lstm import LSTMClassifier
 from models.vit import ViTClassifier
 from models.improved_lstm import ImprovedLSTMClassifier
+from models.frame_classifier import FrameClassifier
 
 
 @hydra.main(version_base=None, config_path=".")
@@ -33,37 +34,52 @@ def main(cfg: DictConfig) -> None:
     num_classes = data_module.num_classes
     
     # Criar modelo baseado na configuração
-    if cfg.model.name == "lstm":
-        model = LSTMClassifier(
-            input_size=cfg.model.input_size,
-            hidden_size=cfg.model.hidden_size,
-            num_layers=cfg.model.num_layers,
+    if cfg.model.model_type == "video":
+        if cfg.model.name == "lstm":
+            model = LSTMClassifier(
+                input_size=cfg.model.input_size,
+                hidden_size=cfg.model.hidden_size,
+                num_layers=cfg.model.num_layers,
+                num_classes=num_classes,
+                dropout=cfg.model.dropout,
+                lr=cfg.training.lr,
+                weight_decay=cfg.training.weight_decay
+            )
+        elif cfg.model.name == "improved_lstm":
+            model = ImprovedLSTMClassifier(
+                input_size=cfg.model.input_size,
+                hidden_size=cfg.model.hidden_size,
+                num_layers=cfg.model.num_layers,
+                num_classes=num_classes,
+                dropout=cfg.model.dropout,
+                lr=cfg.training.lr,
+                weight_decay=cfg.training.weight_decay
+            )
+        elif cfg.model.name == "vit":
+            model = ViTClassifier(
+                model_name=cfg.model.model_name,
+                num_classes=num_classes,
+                pretrained=cfg.model.pretrained,
+                lr=cfg.training.lr,
+                weight_decay=cfg.training.weight_decay,
+                freeze_backbone=cfg.model.freeze_backbone
+            )
+        else:
+            raise ValueError(f"Modelo de vídeo não suportado: {cfg.model.name}")
+    elif cfg.model.model_type == "frame":
+        model = FrameClassifier(
             num_classes=num_classes,
-            dropout=cfg.model.dropout,
-            lr=cfg.training.lr,
-            weight_decay=cfg.training.weight_decay
-        )
-    elif cfg.model.name == "improved_lstm":
-        model = ImprovedLSTMClassifier(
-            input_size=cfg.model.input_size,
-            hidden_size=cfg.model.hidden_size,
-            num_layers=cfg.model.num_layers,
-            num_classes=num_classes,
-            dropout=cfg.model.dropout,
-            lr=cfg.training.lr,
-            weight_decay=cfg.training.weight_decay
-        )
-    elif cfg.model.name == "vit":
-        model = ViTClassifier(
-            model_name=cfg.model.model_name,
-            num_classes=num_classes,
-            pretrained=cfg.model.pretrained,
             lr=cfg.training.lr,
             weight_decay=cfg.training.weight_decay,
-            freeze_backbone=cfg.model.freeze_backbone
+            cnn_backbone=cfg.model.cnn_backbone,
+            pretrained=cfg.model.pretrained,
+            freeze_backbone=cfg.model.freeze_backbone,
+            scheduler_name=cfg.training.scheduler.name if "scheduler" in cfg.training and "name" in cfg.training.scheduler else None,
+            t_max=cfg.training.scheduler.t_max if "scheduler" in cfg.training and "t_max" in cfg.training.scheduler else None,
+            eta_min=cfg.training.scheduler.eta_min if "scheduler" in cfg.training and "eta_min" in cfg.training.scheduler else None
         )
     else:
-        raise ValueError(f"Modelo não suportado: {cfg.model.name}")
+        raise ValueError(f"Tipo de modelo não suportado: {cfg.model.model_type}")
     
     # Configurar callbacks
     callbacks = []
