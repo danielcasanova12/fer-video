@@ -34,7 +34,9 @@ class VideoDataset(Dataset):
 
         # Suporte a nomes com "_split"
         base = dataset_name
-        if dataset_name.endswith("_split"):
+        if dataset_name == "ravdess_by_actor":
+            base = "ravdess"
+        elif dataset_name.endswith("_split"):
             base = dataset_name[:-len("_split")]
         self.base_name = base  # ex: "ravdess"
 
@@ -43,6 +45,11 @@ class VideoDataset(Dataset):
         self.classes = self.class_mappings.get(self.base_name, [])
         if not self.classes:
             raise ValueError(f"Dataset desconhecido: {self.base_name}")
+
+        # Adicionado para suportar o novo dataset
+        if self.dataset_name == 'ravdess_by_actor':
+            self.base_name = 'ravdess'
+            self.classes = self.class_mappings.get(self.base_name, [])
         self.class_to_idx = {c:i for i,c in enumerate(self.classes)}
 
         # Carrega lista de (caminho, label)
@@ -229,7 +236,9 @@ class VideoDataModule(pl.LightningDataModule):
 
         # Determinar número de classes baseado no dataset
         base_name = self.dataset
-        if self.dataset.endswith("_split"):
+        if self.dataset == "ravdess_by_actor":
+            base_name = "ravdess"
+        elif self.dataset.endswith("_split"):
             base_name = self.dataset[:-len("_split")]
         
         self.classes = self.class_mappings.get(base_name, [])

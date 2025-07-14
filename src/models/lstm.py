@@ -5,6 +5,11 @@ import pytorch_lightning as pl
 from torchvision import models
 from typing import Dict, Any
 import torchmetrics
+import wandb
+import seaborn as sns
+import matplotlib.pyplot as plt
+from io import BytesIO
+from PIL import Image
 
 
 class LSTMClassifier(pl.LightningModule):
@@ -24,7 +29,8 @@ class LSTMClassifier(pl.LightningModule):
         lr: float = 1e-3,
         weight_decay: float = 1e-4,
         cnn_backbone: str = 'resnet18',
-        freeze_cnn: bool = True
+        freeze_cnn: bool = True,
+        class_names: list = None,
     ):
         super().__init__()
         self.save_hyperparameters()
@@ -32,6 +38,7 @@ class LSTMClassifier(pl.LightningModule):
         self.num_classes = num_classes
         self.lr = lr
         self.weight_decay = weight_decay
+        self.class_names = class_names
         
         # CNN backbone para extração de features
         if cnn_backbone == 'resnet18':
@@ -81,6 +88,10 @@ class LSTMClassifier(pl.LightningModule):
         self.train_f1 = torchmetrics.F1Score(task='multiclass', num_classes=num_classes)
         self.val_f1 = torchmetrics.F1Score(task='multiclass', num_classes=num_classes)
         self.test_f1 = torchmetrics.F1Score(task='multiclass', num_classes=num_classes)
+
+        self.train_cm = torchmetrics.ConfusionMatrix(task='multiclass', num_classes=num_classes)
+        self.val_cm = torchmetrics.ConfusionMatrix(task='multiclass', num_classes=num_classes)
+        self.test_cm = torchmetrics.ConfusionMatrix(task='multiclass', num_classes=num_classes)
     
     def extract_features(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -131,60 +142,67 @@ class LSTMClassifier(pl.LightningModule):
         
         return logits
     
+    def _step(self, batch, stage):
+        x, y = batch
+        logits = self(x)
+        loss = F.cross_entropy(logits, y)
+        preds = torch.argmax(logits, dim=1)
+
+        acc = getattr(self, f"{stage}_acc")
+        f1 = getattr(self, f"{stage}_f1")
+        cm = getattr(self, f"{stage}_cm")
+
+        acc(preds, y)
+        f1(preds, y)
+        cm.update(preds, y)
+
+        self.log(f'{stage}_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
+        self.log(f'{stage}_acc', acc, on_step=False, on_epoch=True, prog_bar=True)
+        self.log(f'{stage}_f1', f1, on_step=False, on_epoch=True)
+        
+        return loss
+
     def training_step(self, batch: tuple, batch_idx: int) -> torch.Tensor:
         """Training step"""
-        x, y = batch
-        logits = self(x)
-        loss = F.cross_entropy(logits, y)
-        
-        # Calcular métricas
-        preds = torch.argmax(logits, dim=1)
-        self.train_acc(preds, y)
-        self.train_f1(preds, y)
-        
-        # Log métricas
-        self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
-        self.log('train_acc', self.train_acc, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('train_f1', self.train_f1, on_step=False, on_epoch=True)
-        
-        return loss
-    
+        return self._step(batch, "train")
+
     def validation_step(self, batch: tuple, batch_idx: int) -> torch.Tensor:
         """Validation step"""
-        x, y = batch
-        logits = self(x)
-        loss = F.cross_entropy(logits, y)
-        
-        # Calcular métricas
-        preds = torch.argmax(logits, dim=1)
-        self.val_acc(preds, y)
-        self.val_f1(preds, y)
-        
-        # Log métricas
-        self.log('val_loss', loss, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('val_acc', self.val_acc, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('val_f1', self.val_f1, on_step=False, on_epoch=True)
-        
-        return loss
-    
+        return self._step(batch, "val")
+
     def test_step(self, batch: tuple, batch_idx: int) -> torch.Tensor:
         """Test step"""
-        x, y = batch
-        logits = self(x)
-        loss = F.cross_entropy(logits, y)
-        
-        # Calcular métricas
-        preds = torch.argmax(logits, dim=1)
-        self.test_acc(preds, y)
-        self.test_f1(preds, y)
-        
-        # Log métricas
-        self.log('test_loss', loss, on_step=False, on_epoch=True)
-        self.log('test_acc', self.test_acc, on_step=False, on_epoch=True)
-        self.log('test_f1', self.test_f1, on_step=False, on_epoch=True)
-        
-        return loss
-    
+        return self._step(batch, "test")
+
+    def _epoch_end(self, stage):
+        cm = getattr(self, f"{stage}_cm")
+        cm_tensor = cm.compute()
+        cm.reset()
+
+        if self.trainer.logger and hasattr(self.trainer.logger.experiment, 'log'):
+            fig = self._plot_confusion_matrix(cm_tensor.cpu().numpy(), self.class_names)
+            self.trainer.logger.experiment.log({
+                f'{stage}_confusion_matrix': wandb.Image(fig)
+            })
+            plt.close(fig)
+
+    def on_train_epoch_end(self):
+        self._epoch_end("train")
+
+    def on_validation_epoch_end(self):
+        self._epoch_end("val")
+
+    def on_test_epoch_end(self):
+        self._epoch_end("test")
+
+    def _plot_confusion_matrix(self, cm, class_names):
+        fig, ax = plt.subplots(figsize=(10, 8))
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=class_names, yticklabels=class_names, ax=ax)
+        ax.set_xlabel('Predicted')
+        ax.set_ylabel('True')
+        ax.set_title('Confusion Matrix')
+        return fig
+
     def configure_optimizers(self) -> Dict[str, Any]:
         """Configure optimizer and scheduler"""
         optimizer = torch.optim.AdamW(

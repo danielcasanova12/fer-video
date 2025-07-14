@@ -1,9 +1,5 @@
-# Inherit from the base config
-_target_: hydra.compose
-_recursive_: false
-
 # Override parameters for frame-based experiment
-name: "frame_resnet50_base"
+name: "resnet50_base"
 seed: 42
 
 dataset:

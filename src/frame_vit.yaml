@@ -1,9 +1,5 @@
-# Inherit from the base config
-_target_: hydra.compose
-_recursive_: false
-
 # Override parameters for frame-based experiment
-name: "frame_vit_base"
+name: "vit_base"
 seed: 42
 
 dataset:
@@ -17,9 +13,9 @@ dataset:
     ravdess:    ['angry','calm','disgust','fear','happy','neutral','sad','surprised']
 
 model:
-  model_type: vit # Define o tipo de modelo como 'vit'
-  name: frame_classifier # Nome do modelo (pode ser qualquer coisa, mas é bom ser descritivo)
-  cnn_backbone: "google/vit-base-patch16-224-in21k" # Backbone CNN para extração de features
+  model_type: frame
+  name: frame_classifier
+  cnn_backbone: "vit_base_patch16_224_in21k"
   pretrained: true
   freeze_backbone: true
 

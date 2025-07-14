@@ -69,6 +69,7 @@ def main(cfg: DictConfig) -> None:
     elif cfg.model.model_type == "frame":
         model = FrameClassifier(
             num_classes=num_classes,
+            class_names=data_module.classes, # Adicionado para a matriz de confusão
             lr=cfg.training.lr,
             weight_decay=cfg.training.weight_decay,
             cnn_backbone=cfg.model.cnn_backbone,
