@@ -1,7 +1,6 @@
-# Ignorar a pasta de dados grande
+# Ignorar dados grandes e saídas
 data/
 src/checkpoints/
-
 src/wandb/
 wandb/
 src/outputs/
