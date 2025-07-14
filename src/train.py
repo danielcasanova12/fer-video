@@ -75,6 +75,7 @@ def main(cfg: DictConfig) -> None:
             cnn_backbone=cfg.model.cnn_backbone,
             pretrained=cfg.model.pretrained,
             freeze_backbone=cfg.model.freeze_backbone,
+            dropout=cfg.model.dropout, # Adicionado
             scheduler_name=cfg.training.scheduler.name if "scheduler" in cfg.training and "name" in cfg.training.scheduler else None,
             t_max=cfg.training.scheduler.t_max if "scheduler" in cfg.training and "t_max" in cfg.training.scheduler else None,
             eta_min=cfg.training.scheduler.eta_min if "scheduler" in cfg.training and "eta_min" in cfg.training.scheduler else None

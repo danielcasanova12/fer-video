@@ -150,18 +150,25 @@ class VideoDataset(Dataset):
         if not cap.isOpened():
             print(f"Erro ao abrir vídeo: {video_path}")
             return []
-            
-        fps = cap.get(cv2.CAP_PROP_FPS) or 1
-        interval = max(1, int(fps // self.frames_per_second))
-        frames, cnt = [], 0
-        
-        while cap.isOpened() and len(frames) < self.max_frames:
-            ret, frm = cap.read()
-            if not ret: 
-                break
-            if cnt % interval == 0:
-                frames.append(cv2.cvtColor(frm, cv2.COLOR_BGR2RGB))
-            cnt += 1
+
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        frames = []
+
+        if total_frames > 0:
+            # Gera índices de frames uniformemente espaçados (inicio, meio, fim)
+            indices = np.linspace(0, total_frames - 1, self.max_frames, dtype=int)
+
+            for idx in indices:
+                cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
+                ret, frame = cap.read()
+                if ret:
+                    frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                else:
+                    # Se falhar, tenta ler o próximo frame
+                    ret, frame = cap.read()
+                    if ret:
+                        frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+
         cap.release()
         return frames
 
@@ -250,6 +257,8 @@ class VideoDataModule(pl.LightningDataModule):
         # transforms
         self.train_tf = transforms.Compose([
             transforms.Resize((224,224)),
+            transforms.RandomAffine(degrees=10, translate=(0.1, 0.1), scale=(0.9, 1.1)),
+            transforms.RandomPerspective(distortion_scale=0.2, p=0.5),
             transforms.RandomHorizontalFlip(0.5),
             transforms.ColorJitter(0.2,0.2,0.2,0.1),
             transforms.ToTensor(),

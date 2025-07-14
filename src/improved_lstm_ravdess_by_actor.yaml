@@ -1,0 +1,44 @@
+
+# Config for Improved LSTM on RAVDESS (by actor)
+name: "improved_lstm_ravdess_by_actor"
+seed: 42
+
+dataset:
+  name: "ravdess_by_actor"
+  root: "/home/agrilab/Documentos/Cassanova/Fer-video/data"
+  max_frames: 3
+  frames_per_second: 1
+  class_mappings:
+    ravdess:    ['angry','calm','disgust','fear','happy','neutral','sad','surprised']
+
+model:
+  model_type: video
+  name: improved_lstm
+  input_size: 512
+  hidden_size: 256
+  num_layers: 2
+  dropout: 0.4
+  cnn_backbone: resnet50
+  freeze_cnn: false
+
+training:
+  batch_size: 16
+  num_epochs: 50
+  lr: 1e-4
+  weight_decay: 1e-5
+  num_workers: 4
+  precision: 16
+  gradient_clip_val: 1.0
+  accumulate_grad_batches: 2
+  val_check_interval: 1
+  log_interval: 10
+  checkpoint_dir: "checkpoints/"
+  log_dir: "logs/"
+  early_stopping:
+    enable: true
+    patience: 10
+
+wandb:
+  enable: true
+  entity: "snaxofc10-utfpr-medianeira"
+  project: "fer_video"

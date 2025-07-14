@@ -1,0 +1,42 @@
+
+# Config for ViTv2 on CMU-MOSEI
+name: "frame_vitv2_cmu_moisei"
+seed: 42
+
+dataset:
+  name: "cmu_moisei"
+  root: "/home/agrilab/Documentos/Cassanova/Fer-video/data"
+  max_frames: 3
+  frames_per_second: 1
+  class_mappings:
+    cmu_moisei: ['angry','disgust','fear','happy','neutral','sad','surprised']
+
+model:
+  model_type: frame
+  name: frame_classifier
+  cnn_backbone: "eva02_base_patch14_224.mim_in22k"
+  pretrained: true
+  freeze_backbone: false
+  dropout: 0.5
+
+training:
+  batch_size: 4
+  num_epochs: 50
+  lr: 1e-5
+  weight_decay: 1e-4
+  num_workers: 4
+  precision: 16
+  gradient_clip_val: 1.0
+  accumulate_grad_batches: 8
+  val_check_interval: 1
+  log_interval: 10
+  checkpoint_dir: "checkpoints/"
+  log_dir: "logs/"
+  early_stopping:
+    enable: true
+    patience: 10
+
+wandb:
+  enable: true
+  entity: "snaxofc10-utfpr-medianeira"
+  project: "fer_video"

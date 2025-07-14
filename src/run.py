@@ -4,12 +4,30 @@ import sys
 
 # Lista de arquivos de configuração YAML (sem a extensão .yaml)
 CONFIG_LIST = [
-  # "frame_res",
- #   "frame_vit",
- #  "lstm",
- #   "lstmv2",
-    "frame_vitv2"
-    # adicione mais aqui
+    # ResNet50
+    "frame_resnet50_ravdess_by_actor",
+    "frame_resnet50_caer",
+    "frame_resnet50_cmu_moisei",
+    # ViT
+    "frame_vit_ravdess_by_actor",
+    "frame_vit_caer",
+    "frame_vit_cmu_moisei",
+    # ViTv2
+    "frame_vitv2_ravdess_by_actor",
+    "frame_vitv2_caer",
+    "frame_vitv2_cmu_moisei",
+    # LSTM
+    "lstm_ravdess_by_actor",
+    "lstm_caer",
+    "lstm_cmu_moisei",
+    # Improved LSTM
+    "improved_lstm_ravdess_by_actor",
+    "improved_lstm_caer",
+    "improved_lstm_cmu_moisei",
+    # YOLOv8
+    "frame_yolov8l_cls_ravdess_by_actor",
+    "frame_yolov8l_cls_caer",
+    "frame_yolov8l_cls_cmu_moisei",
 ]
 
 # Caminho para o script principal

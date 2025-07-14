@@ -23,6 +23,7 @@ class FrameClassifier(pl.LightningModule):
         t_max: int = 10,
         eta_min: float = 1e-5,
         class_names: list = None,
+        dropout: float = 0.3, # Adicionado para regularização
     ):
         super().__init__()
         self.save_hyperparameters()
@@ -43,7 +44,7 @@ class FrameClassifier(pl.LightningModule):
         self.classifier = nn.Sequential(
             nn.Linear(self.backbone.num_features, 256),
             nn.ReLU(),
-            nn.Dropout(0.3),
+            nn.Dropout(dropout),
             nn.Linear(256, num_classes)
         )
 

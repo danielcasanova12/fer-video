@@ -1,30 +1,28 @@
 
-# Override parameters for frame-based experiment with a more powerful ViT
-name: "vitv2_powerful"
+# Config for YOLOv8-Large-Cls on CMU-MOSEI
+name: "frame_yolov8l_cls_cmu_moisei"
 seed: 42
 
 dataset:
-  name: ravdess_split
+  name: "cmu_moisei"
   root: "/home/agrilab/Documentos/Cassanova/Fer-video/data"
-  max_frames: 12
+  max_frames: 3
   frames_per_second: 1
   class_mappings:
-    caer:       ['Anger','Disgust','Fear','Happy','Neutral','Sad','Surprise']
     cmu_moisei: ['angry','disgust','fear','happy','neutral','sad','surprised']
-    ravdess:    ['angry','calm','disgust','fear','happy','neutral','sad','surprised']
 
 model:
   model_type: frame
   name: frame_classifier
-  cnn_backbone: "eva02_base_patch14_224.mim_in22k" # Using a more powerful ViT model
+  cnn_backbone: "yolov8l_cls"
   pretrained: true
-  freeze_backbone: false # Start with fine-tuning the backbone
-  dropout: 0.5 # Aumentado para combater overfitting
+  freeze_backbone: false
+  dropout: 0.5
 
 training:
-  batch_size: 2
-  num_epochs: 30
-  lr: 1e-5 # Lower learning rate for fine-tuning
+  batch_size: 8
+  num_epochs: 50
+  lr: 1e-5
   weight_decay: 1e-4
   num_workers: 4
   precision: 16
