@@ -41,6 +41,7 @@ def main(cfg: DictConfig) -> None:
                 hidden_size=cfg.model.hidden_size,
                 num_layers=cfg.model.num_layers,
                 num_classes=num_classes,
+                class_names=data_module.classes,
                 dropout=cfg.model.dropout,
                 lr=cfg.training.lr,
                 weight_decay=cfg.training.weight_decay
@@ -51,6 +52,7 @@ def main(cfg: DictConfig) -> None:
                 hidden_size=cfg.model.hidden_size,
                 num_layers=cfg.model.num_layers,
                 num_classes=num_classes,
+                class_names=data_module.classes,
                 dropout=cfg.model.dropout,
                 lr=cfg.training.lr,
                 weight_decay=cfg.training.weight_decay
@@ -59,6 +61,7 @@ def main(cfg: DictConfig) -> None:
             model = ViTClassifier(
                 model_name=cfg.model.model_name,
                 num_classes=num_classes,
+                class_names=data_module.classes,
                 pretrained=cfg.model.pretrained,
                 lr=cfg.training.lr,
                 weight_decay=cfg.training.weight_decay,
@@ -80,8 +83,18 @@ def main(cfg: DictConfig) -> None:
             t_max=cfg.training.scheduler.t_max if "scheduler" in cfg.training and "t_max" in cfg.training.scheduler else None,
             eta_min=cfg.training.scheduler.eta_min if "scheduler" in cfg.training and "eta_min" in cfg.training.scheduler else None
         )
-    else:
-        raise ValueError(f"Tipo de modelo não suportado: {cfg.model.model_type}")
+    elif cfg.model.model_type == "yolo":
+        from models.yolo_classifier import YOLOClassifier
+        model = YOLOClassifier(
+            num_classes=num_classes,
+            class_names=data_module.classes,
+            lr=cfg.training.lr,
+            weight_decay=cfg.training.weight_decay,
+            model_name=cfg.model.model_name,
+            pretrained=cfg.model.pretrained,
+            freeze_backbone=cfg.model.freeze_backbone,
+            dropout=cfg.model.dropout,
+        )
     
     # Configurar callbacks
     callbacks = []

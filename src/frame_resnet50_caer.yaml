@@ -21,7 +21,7 @@ model:
 
 training:
   batch_size: 16
-  num_epochs: 50
+  num_epochs: 1
   lr: 1e-4
   weight_decay: 1e-4
   num_workers: 4

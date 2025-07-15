@@ -244,8 +244,7 @@ class ViTClassifier(pl.LightningModule):
             optimizer,
             mode='min',
             factor=0.5,
-            patience=5,
-            verbose=True
+            patience=5
         )
         
         return {

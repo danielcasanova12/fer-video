@@ -1,6 +1,6 @@
 
-# Config for ResNet18 on RAVDESS (by actor)
-name: "frame_resnet50_ravdess_by_actor"
+# Config for YOLOClassifier on RAVDESS (by actor)
+name: "yolo_ravdess_by_actor"
 seed: 42
 
 dataset:
@@ -12,22 +12,22 @@ dataset:
     ravdess:    ['angry','calm','disgust','fear','happy','neutral','sad','surprised']
 
 model:
-  model_type: frame
-  name: frame_classifier
-  cnn_backbone: "resnet50"
+  model_type: yolo
+  name: yolo_classifier
+  model_name: "yolov8l-cls.pt"
   pretrained: true
   freeze_backbone: false
-  dropout: 0.4
+  dropout: 0.5
 
 training:
-  batch_size: 16
+  batch_size: 4 # Reduzido para o modelo maior
   num_epochs: 1
-  lr: 1e-4
+  lr: 1e-5
   weight_decay: 1e-4
   num_workers: 4
   precision: 16
   gradient_clip_val: 1.0
-  accumulate_grad_batches: 2
+  accumulate_grad_batches: 8 # Aumentado para compensar batch size
   val_check_interval: 1
   log_interval: 10
   checkpoint_dir: "checkpoints/"

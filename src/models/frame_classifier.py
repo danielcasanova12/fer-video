@@ -139,6 +139,8 @@ class FrameClassifier(pl.LightningModule):
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr, weight_decay=self.weight_decay)
 
         if self.scheduler_name == "cosine":
-            scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=self.t_.max, eta_min=self.eta_min)
+            scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+                optimizer, T_max=self.t_max, eta_min=self.eta_min
+            )
             return [optimizer], [scheduler]
         return optimizer

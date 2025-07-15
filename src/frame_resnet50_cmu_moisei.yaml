@@ -4,7 +4,7 @@ name: "frame_resnet50_cmu_moisei"
 seed: 42
 
 dataset:
-  name: "cmu_moisei"
+  name: "cmu-moisei_split"
   root: "/home/agrilab/Documentos/Cassanova/Fer-video/data"
   max_frames: 3
   frames_per_second: 1
@@ -21,7 +21,7 @@ model:
 
 training:
   batch_size: 16
-  num_epochs: 50
+  num_epochs: 1
   lr: 1e-4
   weight_decay: 1e-4
   num_workers: 4

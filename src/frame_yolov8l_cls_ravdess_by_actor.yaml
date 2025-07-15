@@ -14,14 +14,14 @@ dataset:
 model:
   model_type: frame
   name: frame_classifier
-  cnn_backbone: "yolov8l_cls"
+  cnn_backbone: "yolov8_l_cls"
   pretrained: true
   freeze_backbone: false
   dropout: 0.5
 
 training:
   batch_size: 8
-  num_epochs: 50
+  num_epochs: 1
   lr: 1e-5
   weight_decay: 1e-4
   num_workers: 4
