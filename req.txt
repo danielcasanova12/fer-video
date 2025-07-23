@@ -1,5 +1,5 @@
 # Pipeline de treinamento de classificação de vídeo
-# Instale com: pip install -r requirements.txt
+# Instale com: pip install -r req.txt
 
 # Core dependencies
 torch>=1.13.0

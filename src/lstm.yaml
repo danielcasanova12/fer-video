@@ -7,7 +7,7 @@ model_config: null
 
 dataset:
   name: ravdess_split
-  root: "/home/agrilab/Documentos/Cassanova/Fer-video/data"  # <–– aqui!
+  root: "F:/Git/fer-video/fer-video/data"  # <–– aqui!
   max_frames: 12
   frames_per_second: 1
   class_mappings:

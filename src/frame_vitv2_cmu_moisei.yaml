@@ -4,8 +4,8 @@ name: "frame_vitv2_cmu_moisei"
 seed: 42
 
 dataset:
-  name: "cmu-moisei_split"
-  root: "/home/agrilab/Documentos/Cassanova/Fer-video/data"
+  name: "CMU"
+  root: "F:/Git/fer-video/fer-video/data"
   max_frames: 3
   frames_per_second: 1
   class_mappings:

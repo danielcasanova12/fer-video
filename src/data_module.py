@@ -11,6 +11,10 @@ import pytorch_lightning as pl
 from torchvision import transforms, models
 from omegaconf import DictConfig
 
+# Configurar OpenCV para suprimir warnings de vídeo
+cv2.setLogLevel(0)  # Suprimir todos os logs do OpenCV
+os.environ['OPENCV_FFMPEG_LOGLEVEL'] = '-8'  # Suprimir warnings do FFmpeg
+
 class VideoDataset(Dataset):
     """Dataset para carregar frames de vídeo de estruturas de pastas."""
 
@@ -32,12 +36,18 @@ class VideoDataset(Dataset):
         self.transform = transform
         self.frames_per_second = frames_per_second
 
-        # Suporte a nomes com "_split"
+        # Suporte a nomes com "_split" e correção para CAER/CMU
         base = dataset_name
         if dataset_name == "ravdess_by_actor":
             base = "ravdess"
         elif dataset_name.endswith("_split"):
             base = dataset_name[:-len("_split")]
+        elif dataset_name.upper() == "CAER":
+            base = "caer"
+        elif dataset_name.upper() == "CMU":
+            base = "cmu_moisei"
+        elif dataset_name == "cmu_moisei":
+            base = "cmu_moisei"
         self.base_name = base  # ex: "ravdess"
 
         # Mapeamento de classes
@@ -57,7 +67,13 @@ class VideoDataset(Dataset):
 
     def _load_data(self) -> List[Tuple[str,int]]:
         data: List[Tuple[str,int]] = []
-        split_path = self.root_dir / self.dataset_name / self.split
+        
+        # Correção para CAER que usa 'validation' ao invés de 'val'
+        split_name = self.split
+        if self.dataset_name.upper() == 'CAER' and self.split == 'val':
+            split_name = 'validation'
+            
+        split_path = self.root_dir / self.dataset_name / split_name
         if not split_path.exists():
             raise FileNotFoundError(f"Caminho não encontrado: {split_path}")
 
@@ -146,7 +162,12 @@ class VideoDataset(Dataset):
         return data
 
     def _extract_frames_from_video(self, video_path: str) -> List[np.ndarray]:
+        """Extrai frames de um vídeo com tratamento de erros melhorado"""
         cap = cv2.VideoCapture(video_path)
+        
+        # Configurar propriedades do VideoCapture para reduzir warnings
+        cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+        
         if not cap.isOpened():
             print(f"Erro ao abrir vídeo: {video_path}")
             return []
@@ -155,21 +176,32 @@ class VideoDataset(Dataset):
         frames = []
 
         if total_frames > 0:
-            # Gera índices de frames uniformemente espaçados (inicio, meio, fim)
-            indices = np.linspace(0, total_frames - 1, self.max_frames, dtype=int)
+            # Gera índices de frames uniformemente espaçados
+            indices = np.linspace(0, max(0, total_frames - 1), self.max_frames, dtype=int)
 
             for idx in indices:
                 cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
                 ret, frame = cap.read()
-                if ret:
-                    frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-                else:
-                    # Se falhar, tenta ler o próximo frame
-                    ret, frame = cap.read()
-                    if ret:
+                
+                if ret and frame is not None:
+                    # Verificar se o frame não está corrompido
+                    if frame.shape[0] > 0 and frame.shape[1] > 0:
                         frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                else:
+                    # Se falhar, tenta ler alguns frames seguintes
+                    for attempt in range(3):
+                        ret, frame = cap.read()
+                        if ret and frame is not None and frame.shape[0] > 0:
+                            frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                            break
 
         cap.release()
+        
+        # Se não conseguiu extrair frames suficientes, duplica os existentes
+        if len(frames) < self.max_frames and len(frames) > 0:
+            while len(frames) < self.max_frames:
+                frames.append(frames[-1])  # Duplica o último frame válido
+        
         return frames
 
     def _load_frames_from_folder(self, folder: str) -> List[np.ndarray]:
@@ -247,10 +279,18 @@ class VideoDataModule(pl.LightningDataModule):
             base_name = "ravdess"
         elif self.dataset.endswith("_split"):
             base_name = self.dataset[:-len("_split")]
+        elif self.dataset == "cmu-moisei_split":
+            base_name = "cmu_moisei"
+        elif self.dataset.upper() == "CAER":
+            base_name = "caer"
+        elif self.dataset.upper() == "CMU":
+            base_name = "cmu_moisei"
+        elif self.dataset == "cmu_moisei":
+            base_name = "cmu_moisei"
         
         self.classes = self.class_mappings.get(base_name, [])
         if not self.classes:
-            raise ValueError(f"Dataset desconhecido: {base_name}")
+            raise ValueError(f"Dataset desconhecido: {base_name}. Datasets disponíveis: {list(self.class_mappings.keys())}")
         
         self.num_classes = len(self.classes)
 
@@ -312,24 +352,33 @@ class VideoDataModule(pl.LightningDataModule):
             self.test_ds = None
 
     def train_dataloader(self) -> DataLoader:
+        # Detectar se estamos usando GPU ou CPU
+        pin_memory = torch.cuda.is_available()
+        
         return DataLoader(
             self.train_ds, batch_size=self.batch, shuffle=True,
-            num_workers=self.workers, pin_memory=True,
+            num_workers=self.workers, pin_memory=pin_memory,
             persistent_workers=self.workers>0
         )
 
     def val_dataloader(self) -> DataLoader:
+        # Detectar se estamos usando GPU ou CPU
+        pin_memory = torch.cuda.is_available()
+        
         return DataLoader(
             self.val_ds, batch_size=self.batch, shuffle=False,
-            num_workers=self.workers, pin_memory=True,
+            num_workers=self.workers, pin_memory=pin_memory,
             persistent_workers=self.workers>0
         )
 
     def test_dataloader(self) -> Optional[DataLoader]:
         if self.test_ds:
+            # Detectar se estamos usando GPU ou CPU
+            pin_memory = torch.cuda.is_available()
+            
             return DataLoader(
                 self.test_ds, batch_size=self.batch, shuffle=False,
-                num_workers=self.workers, pin_memory=True,
+                num_workers=self.workers, pin_memory=pin_memory,
                 persistent_workers=self.workers>0
             )
         return None

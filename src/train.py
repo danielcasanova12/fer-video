@@ -4,13 +4,32 @@ Script principal para treinamento de classificação de vídeo
 com PyTorch Lightning e Hydra
 """
 
+import os
+import warnings
+
+# Configurar variáveis de ambiente ANTES de importar outras bibliotecas
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
+
+# Configurações para suprimir warnings do OpenCV/FFmpeg
+os.environ['OPENCV_FFMPEG_LOGLEVEL'] = '-8'
+os.environ['OPENCV_LOG_LEVEL'] = 'ERROR'
+
+# Suprimir warnings específicos
+warnings.filterwarnings("ignore", category=UserWarning, module="torch")
+warnings.filterwarnings("ignore", category=FutureWarning)
+
 import hydra
 from omegaconf import DictConfig
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 from pytorch_lightning.loggers import TensorBoardLogger, WandbLogger
 import torch
-import os
+import cv2
+
+# Configurar OpenCV após importação
+cv2.setLogLevel(0)
 
 from data_module import VideoDataModule
 from models.lstm import LSTMClassifier
@@ -137,17 +156,29 @@ def main(cfg: DictConfig) -> None:
             version=None
         )
     
+    # Detectar automaticamente o melhor dispositivo disponível
+    if torch.cuda.is_available():
+        accelerator = "gpu"
+        devices = 1
+        precision = "16-mixed"  # Usar mixed precision na GPU
+        print(f"🚀 GPU detectada: {torch.cuda.get_device_name(0)}")
+    else:
+        accelerator = "cpu"
+        devices = "auto"
+        precision = "32"
+        print("⚠️  Usando CPU")
+    
     # Configurar trainer
     trainer = pl.Trainer(
         max_epochs=cfg.training.num_epochs,
-        accelerator="auto",
-        devices="auto",
+        accelerator=accelerator,
+        devices=devices,
         callbacks=callbacks,
         logger=logger,
         deterministic=True,
         check_val_every_n_epoch=cfg.training.val_check_interval,
         log_every_n_steps=cfg.training.log_interval,
-        precision=cfg.training.precision,
+        precision=precision,  # Usar precision detectada automaticamente
         gradient_clip_val=cfg.training.gradient_clip_val,
         accumulate_grad_batches=cfg.training.accumulate_grad_batches
     )

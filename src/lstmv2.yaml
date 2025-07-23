@@ -8,7 +8,7 @@ seed: 42 # Inherit or define a new seed for this config
 
 dataset:
   name: ravdess_split
-  root: "/home/agrilab/Documentos/Cassanova/Fer-video/data"
+  root: "F:/Git/fer-video/fer-video/data"
   max_frames: 12
   frames_per_second: 1
   class_mappings:
